@@ -5,49 +5,88 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notebook"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="172" Width="278">
+        Title="SettingsWindow" Height="206" Width="255"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="38"></RowDefinition>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <StackPanel HorizontalAlignment="Center"
+        <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Center">
-            <WrapPanel Margin="5"
-                       HorizontalAlignment="Center">
-                <Label Content="Wrap Mode: " 
-                       FontSize="15"
-                       HorizontalAlignment="Right"
-                       Target="{Binding ElementName=wrapMode_comboBox}"/>
-                <ComboBox x:Name="wrapMode_comboBox"
-                       FontSize="15"
-                       HorizontalAlignment="Left"
-                       MinWidth="100"></ComboBox>
+            <Label Content="Wrap Mode: " 
+                   FontSize="13"
+                   HorizontalAlignment="Right"
+                   Target="{Binding ElementName=wrapMode_comboBox}"/>
+            <Label Content="Font Size: "
+                   FontSize="13"
+                   HorizontalAlignment="Right"
+                   Target="{Binding ElementName=fontSize_comboBox}"/>
+            <Label Content="Fore color: "
+                   FontSize="13"
+                   HorizontalAlignment="Right"
+                   Target="{Binding ElementName=foreColor_border}"/>
+            <Label Content="Back color: "
+                   FontSize="13"
+                   HorizontalAlignment="Right"
+                   Target="{Binding ElementName=backColor_canvas}"/>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Grid.Column="1"
+                    Margin="5, 0, 0, 0">
+            <ComboBox x:Name="wrapMode_comboBox"
+                      FontSize="13"
+                      HorizontalAlignment="Left"
+                      MinWidth="100"
+                      Margin="0, 0, 0, 6"></ComboBox>
+            <ComboBox x:Name="fontSize_comboBox"
+                      FontSize="13"
+                      HorizontalAlignment="Left"
+                      MinWidth="100"
+                      Margin="0, 0, 0, 6"></ComboBox>
+            <WrapPanel Margin="0, 0, 0, 6">
+                <Border x:Name="foreColor_border"
+                        Margin="0, 0, 02, 0"
+                        Width="59"
+                        Height="20"
+                        BorderThickness="1"
+                        BorderBrush="Black"/>
+                <Button Padding="8, 0, 8, 0"
+                        Click="foreColor_button_Click">Pick</Button>
             </WrapPanel>
-            <WrapPanel Margin="5"
-                       HorizontalAlignment="Center">
-                <Label Content="Font Size: "
-                       FontSize="15"
-                       HorizontalAlignment="Right"
-                       Target="{Binding ElementName=fontSize_comboBox}"/>
-                <ComboBox x:Name="fontSize_comboBox"
-                          FontSize="15"
-                          HorizontalAlignment="Left"
-                          MinWidth="100"></ComboBox>
+            <WrapPanel>
+                <Border x:Name="backColor_border"
+                        Width="59"
+                        Height="20"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        Margin="0, 0, 2, 0"/>
+                <Button Padding="8, 0, 8, 0"
+                        Click="backColor_button_Click">Pick</Button>
             </WrapPanel>
         </StackPanel>
-        <WrapPanel Grid.Row="1"
+
+        <WrapPanel Grid.Column="1"
+                   Grid.Row="1"
                    HorizontalAlignment="Right"
-                   VerticalAlignment="Bottom">
-            <Button x:Name="ok_button" 
-                    Margin="5"
-                    FontSize="15"
-                    MinWidth="60" Click="ok_button_Click">OK</Button>
-            <Button x:Name="cancel_button" 
-                    Margin="5"
-                    FontSize="15"
-                    MinWidth="60" Click="cancel_button_Click">Cancel</Button>
+                   VerticalAlignment="Center"
+                   Margin="0, 0, 5, 5">
+            <Button Margin="0, 0, 5, 0"
+                    FontSize="13"
+                    MinWidth="50" 
+                    IsDefault="True"
+                    Click="ok_button_Click">OK</Button>
+            <Button FontSize="13"
+                    IsCancel="True"
+                    MinWidth="50">Cancel</Button>
         </WrapPanel>
     </Grid>
 </Window>

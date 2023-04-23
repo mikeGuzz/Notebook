@@ -48,6 +48,8 @@ namespace Notebook
                         {
                             textBox.TextWrapping = order.TextWrapping;
                             textBox.FontSize = order.FontSize;
+                            textBox.Foreground = new SolidColorBrush(order.ForeColor);
+                            textBox.Background = new SolidColorBrush(order.BackColor);
                         }
                         else
                         {
@@ -72,7 +74,7 @@ namespace Notebook
         {
             if (!IsSaved())
             {
-                var res = MessageBox.Show($"Do you want to save changes to {filePath}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                var res = MessageBox.Show($"Do you want to save changes to {fileName}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (res == MessageBoxResult.Yes)
                 {
                     if (!Save())
@@ -185,7 +187,7 @@ namespace Notebook
         {
             if (!IsSaved())
             {
-                var res = MessageBox.Show($"Do you want to save changes to {filePath}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                var res = MessageBox.Show($"Do you want to save changes to {fileName}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (res == MessageBoxResult.Yes)
                 {
                     if (!Save())
@@ -220,7 +222,7 @@ namespace Notebook
         {
             if (!IsSaved())
             {
-                var res = MessageBox.Show($"Do you want to save changes to {filePath}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                var res = MessageBox.Show($"Do you want to save changes to {fileName}?", GetTitle(), MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (res == MessageBoxResult.Yes)
                 {
                     if (!Save())
@@ -241,7 +243,7 @@ namespace Notebook
                 using (var s = File.Create(settingsFileName))
                 {
                     var serializer = new XmlSerializer(typeof(MyOrder));
-                    serializer.Serialize(s, new MyOrder(textBox.TextWrapping, textBox.FontSize));
+                    serializer.Serialize(s, new MyOrder(textBox.TextWrapping, textBox.FontSize, ((SolidColorBrush)textBox.Background).Color, ((SolidColorBrush)textBox.Foreground).Color));
                 }
             }
             catch
@@ -253,13 +255,39 @@ namespace Notebook
 
         private void settings_button_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new SettingsWindow(textBox.TextWrapping, textBox.FontSize);
-            if(dialog.ShowDialog() == true)
+            var dialog = new SettingsWindow();
+            dialog._TextWrapping = textBox.TextWrapping;
+            dialog._FontSize = textBox.FontSize;
+            dialog.BackColor = textBox.Background;
+            dialog.ForeColor = textBox.Foreground;
+            if (dialog.ShowDialog() == true)
             {
                 textBox.TextWrapping = dialog._TextWrapping; 
                 textBox.FontSize = dialog._FontSize;
+                textBox.Background = dialog.BackColor;
+                textBox.Foreground = dialog.ForeColor;
                 SaveSettings();
             }
+        }
+
+        private void selectAll_button_Click(object sender, RoutedEventArgs e)
+        {
+            textBox.SelectAll();
+        }
+
+        private void cut_button_Click(object sender, RoutedEventArgs e)
+        {
+            textBox.Cut();
+        }
+
+        private void paste_button_Click(object sender, RoutedEventArgs e)
+        {
+            textBox.Paste();
+        }
+
+        private void copy_button_Click(object sender, RoutedEventArgs e)
+        {
+            textBox.Copy();
         }
     }
 }

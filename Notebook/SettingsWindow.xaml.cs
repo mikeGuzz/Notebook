@@ -21,6 +21,15 @@ namespace Notebook
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        public Dictionary<TemplatedFontSize, double> sizeStands { get; set; } = new Dictionary<TemplatedFontSize, double>()
+        {
+            { TemplatedFontSize.VerySmall, 10 },
+            { TemplatedFontSize.Small, 14 },
+            { TemplatedFontSize.Normal, 18 },
+            { TemplatedFontSize.Large, 22 },
+            { TemplatedFontSize.VeryLarge, 26 },
+        };
+
         public TextWrapping _TextWrapping
         {
             get => (TextWrapping)wrapMode_comboBox.SelectedIndex;
@@ -31,82 +40,59 @@ namespace Notebook
         {
             get
             {
-                switch ((TemplatedFontSize)fontSize_comboBox.SelectedIndex)
-                {
-                    case TemplatedFontSize.VerySmall:
-                        return 8;
-                    case TemplatedFontSize.Small:
-                        return 12;
-                    case TemplatedFontSize.Large:
-                        return 18;
-                    case TemplatedFontSize.VeryLarge:
-                        return 22;
-                    default:
-                        return 15;
-                }
+                if(sizeStands.TryGetValue((TemplatedFontSize)fontSize_comboBox.SelectedIndex, out var n))
+                    return n;
+                throw new InvalidOperationException();
             }
             set
             {
-                switch (value)
+                foreach(var ob in sizeStands)
                 {
-                    case 8:
-                        fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.VerySmall;
-                        break;
-                    case 12:
-                        fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.Small;
-                        break;
-                    case 18:
-                        fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.Large;
-                        break;
-                    case 22:
-                        fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.VeryLarge;
-                        break;
-                    default:
-                        fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.Normal;
-                        break;
+                    if(ob.Value == value)
+                    {
+                        fontSize_comboBox.SelectedIndex = (int)ob.Key;
+                        return;
+                    }
                 }
+            }
+        }
+
+        public Brush BackColor
+        {
+            get => backColor_border.Background;
+            set
+            {
+                if (value.GetType() != typeof(SolidColorBrush))
+                    return;
+                backColor_border.Background = value;
+            }
+        }
+
+        public Brush ForeColor
+        {
+            get => foreColor_border.Background;
+            set
+            {
+                if (value.GetType() != typeof(SolidColorBrush))
+                    return;
+                foreColor_border.Background = value;
             }
         }
 
         public SettingsWindow()
         {
             InitializeComponent();
-            Setup();
 
-            wrapMode_comboBox.SelectedIndex = 0;
-            fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.Normal;
-        }
-
-        public SettingsWindow(MyOrder order)
-        {
-            InitializeComponent();
-            Setup();
-
-            _FontSize = order.FontSize;
-            _TextWrapping = order.TextWrapping;
-        }
-
-        public SettingsWindow(TextWrapping textWrapping, double fontSize)
-        {
-            InitializeComponent();
-            Setup();
-
-            _FontSize = fontSize;
-            _TextWrapping = textWrapping;
-        }
-
-        private void Setup()
-        {
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-            foreach(var ob in Enum.GetNames(typeof(TextWrapping)))
+            foreach (var ob in Enum.GetNames(typeof(TextWrapping)))
             {
                 wrapMode_comboBox.Items.Add(ob);
             }
+            fontSize_comboBox.SelectedIndex = (int)TemplatedFontSize.Normal;
             foreach (var ob in Enum.GetNames(typeof(TemplatedFontSize)))
             {
                 fontSize_comboBox.Items.Add(ob);
             }
+            wrapMode_comboBox.SelectedIndex = 0;
         }
 
         private void ok_button_Click(object sender, RoutedEventArgs e)
@@ -114,9 +100,24 @@ namespace Notebook
             DialogResult = true;
         }
 
-        private void cancel_button_Click(object sender, RoutedEventArgs e)
+        private void foreColor_button_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
+            var dialog = new MyColorDialog();
+            dialog.Color = ((SolidColorBrush)foreColor_border.Background).Color;
+            if (dialog.ShowDialog() == true)
+            {
+                foreColor_border.Background = new SolidColorBrush(dialog.Color);
+            }
+        }
+
+        private void backColor_button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MyColorDialog();
+            dialog.Color = ((SolidColorBrush)backColor_border.Background).Color;
+            if (dialog.ShowDialog() == true)
+            {
+                backColor_border.Background = new SolidColorBrush(dialog.Color);
+            }
         }
     }
 }

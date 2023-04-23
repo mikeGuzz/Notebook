@@ -1,0 +1,135 @@
+﻿<Window x:Class="Notebook.MyColorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notebook"
+        mc:Ignorable="d"
+        Title="Color dialog" Height="422" Width="227"
+        WindowStyle="SingleBorderWindow" 
+        WindowStartupLocation="CenterOwner" 
+        ResizeMode="NoResize" KeyDown="Window_KeyDown">
+    <StackPanel>
+
+        <Border x:Name="preview_border"
+                Height="100"
+                BorderThickness="1.5"
+                Margin="5">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF656565"/>
+                    <GradientStop Color="#FFCACACA" Offset="0.5"/>
+                    <GradientStop Color="#FF505050" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.3" 
+                                  ShadowDepth="3" 
+                                  Direction="250"/>
+            </Border.Effect>
+        </Border>
+
+        <Grid Margin="0, 0, 0, 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Margin="5">RGB:</TextBlock>
+            <TextBox x:Name="rgb_textBox"
+                     Grid.Column="1"
+                     Margin="5"
+                     LostFocus="rgb_textBox_LostFocus"/>
+
+            <TextBlock Grid.Row="1"
+                       Margin="5">CMYK:</TextBlock>
+            <TextBox x:Name="cmyk_textBox"
+                     Grid.Row="1" 
+                     Grid.Column="1"
+                     Margin="5"
+                     LostFocus="cmyk_textBox_LostFocus"/>
+
+            <TextBlock Grid.Row="2"
+                       Margin="5">HEX:</TextBlock>
+            <TextBox x:Name="hex_textBox"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="5"
+                     LostFocus="hex_textBox_LostFocus"/>
+        </Grid>
+
+        <Separator Margin="5, 0, 5, 0"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="5, 5, 0, 0">Red channel:</TextBlock>
+            <TextBlock x:Name="r_textBlock"
+                       Margin="5, 5, 0, 0" 
+                       Grid.Column="1">255</TextBlock>
+        </Grid>
+
+        <Slider x:Name="r_slider" 
+                Margin="5" 
+                Maximum="255" 
+                SmallChange="1"
+                ValueChanged="r_slider_ValueChanged"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="5, 5, 0, 0">Green channel:</TextBlock>
+            <TextBlock x:Name="g_textBlock"
+                       Margin="5, 5, 0, 0" 
+                       Grid.Column="1">255</TextBlock>
+        </Grid>
+        
+        <Slider x:Name="g_slider" 
+                Margin="5" 
+                Maximum="255"
+                SmallChange="1"
+                ValueChanged="g_slider_ValueChanged"/>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="5, 5, 0, 0">Blue channel:</TextBlock>
+            <TextBlock x:Name="b_textBlock"
+                       Margin="5, 5, 0, 0" 
+                       Grid.Column="1">255</TextBlock>
+        </Grid>
+
+        <Slider x:Name="b_slider" 
+                Margin="5" 
+                Maximum="255"
+                SmallChange="1"
+                ValueChanged="b_slider_ValueChanged"/>
+
+
+        <WrapPanel HorizontalAlignment="Right"
+                   Margin="0, 8, 0, 0">
+            <Button x:Name="ok_button"
+                    Width="50"
+                    Margin="0, 0, 5, 0"
+                    Click="ok_button_Click">OK</Button>
+            <Button x:Name="cancel_button"
+                    Width="50"
+                    Margin="0, 0, 5, 0"
+                    IsCancel="True">Cancel</Button>
+        </WrapPanel>
+    </StackPanel>
+</Window>

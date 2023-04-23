@@ -8,50 +8,61 @@
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Open"
+                          Click="open_button_Click"/>
+                <MenuItem Header="New"
+                          Click="new_button_Click"/>
+                <Separator/>
+                <MenuItem Header="Save"
+                          Click="save_button_Click"/>
+                <MenuItem Header="Save as"
+                          Click="saveAs_button_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="Copy"
+                          Click="copy_button_Click"/>
+                <MenuItem Header="Paste"
+                          Click="paste_button_Click"/>
+                <MenuItem Header="Cut"
+                          Click="cut_button_Click"/>
+                <Separator/>
+                <MenuItem Header="Select all"
+                          Click="selectAll_button_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem Header="Properties"
+                          Click="settings_button_Click"/>
+            </MenuItem>
+        </Menu>
 
         <TextBox x:Name="textBox"
+                 Grid.Row="1"
                  VerticalScrollBarVisibility="Visible"
                  HorizontalScrollBarVisibility="Auto"
                  AcceptsReturn="True"
                  AcceptsTab="True"
                  TextWrapping="Wrap"
-                 FontFamily="Consolas"></TextBox>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <WrapPanel VerticalAlignment="Center">
-                <Button x:Name="settings_button"
-                        Margin="4, 0, 0, 0"
-                        FontSize="18" Click="settings_button_Click">Settings</Button>
-            </WrapPanel>
-
-            <WrapPanel Grid.Column="1" 
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Right">
-                <Button x:Name="open_button" 
-                        Margin="0, 0, 4, 0"
-                        FontSize="18"
-                        Click="open_button_Click">Open</Button>
-                <Button x:Name="new_button"
-                        Margin="0, 0, 4, 0"
-                        FontSize="18" Click="new_button_Click">New</Button>
-                <Button x:Name="saveAs_button"
-                        Margin="0, 0, 4, 0"
-                        FontSize="18"
-                        Click="saveAs_button_Click">Save As</Button>
-                <Button x:Name="save_button"
-                        Margin="0, 0, 4, 0"
-                        FontSize="18"
-                        Click="save_button_Click">Save</Button>
-            </WrapPanel>
-
-        </Grid>
+                 FontFamily="Consolas">
+            <TextBox.ContextMenu>
+                <ContextMenu x:Name="contextMenu">
+                    <MenuItem Header="Copy"
+                      Click="copy_button_Click"/>
+                    <MenuItem Header="Paste"
+                      Click="paste_button_Click"/>
+                    <MenuItem Header="Cut"
+                      Click="cut_button_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Select all"
+                      Click="selectAll_button_Click"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
     </Grid>
 </Window>
